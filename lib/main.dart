@@ -1,3 +1,5 @@
+import 'dart:ffi';
+import 'person_counter.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -11,25 +13,117 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Tip Calculator',
+      title: 'uTip',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: null,
+      home: UTip(),
     );
   }
 }
 
-class MyWidget extends StatefulWidget {
-  const MyWidget({super.key});
+class UTip extends StatefulWidget {
+  const UTip({super.key});
 
   @override
-  State<MyWidget> createState() => _MyWidgetState();
+  State<UTip> createState() => _UTipState();
 }
 
-class _MyWidgetState extends State<MyWidget> {
+class _UTipState extends State<UTip> {
+  //Variables
+  int _personCount = 1;
+
+  //Methods
+  void increment() {
+    setState(() {
+      _personCount++;
+    });
+  }
+
+  void decrement() {
+    setState(() {
+      if (_personCount > 1) {
+        //because tipping person has to be 1 at least for the tipping to make sense
+        _personCount--;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    //print(context.owner.toString()); writing this code causes error
+    var theme = Theme.of(context);
+    //Add style
+    final style = theme.textTheme.titleMedium!.copyWith(
+      color: theme.colorScheme.onPrimary,
+      fontWeight: FontWeight.bold,
+    );
+    return Scaffold(
+      appBar: AppBar(title: const Text('uTip')),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              padding: const EdgeInsets.all(18),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.inversePrimary,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Column(
+                children: [
+                  Text('Total per person', style: style),
+                  Text(
+                    "\$23.89",
+                    style: style.copyWith(
+                      // color: theme.colorScheme.primary,
+                      fontSize: theme.textTheme.displaySmall!.fontSize,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          //Form
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                border: Border.all(color: theme.colorScheme.primary, width: 2),
+              ),
+              child: Column(
+                children: [
+                  TextField(
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      prefixIcon: Icon(Icons.attach_money),
+                      labelText: "Bill Amount",
+                    ),
+                    keyboardType: TextInputType.number,
+                    onChanged: (value) {
+                      print(value);
+                    },
+                  ),
+                  //Split Bill area
+                  PersonCounter(
+                    theme: theme,
+                    personCount: _personCount,
+                    onIncrement: () {
+                      increment();
+                    },
+                    onDecrement: () {
+                      decrement();
+                    },
+                  ),
+                  
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
