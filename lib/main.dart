@@ -28,9 +28,28 @@ class UTip extends StatefulWidget {
 }
 
 class _UTipState extends State<UTip> {
+  //Variables
+  int _personCount = 1;
+
+  //Methods
+  void increment() {
+    setState(() {
+      _personCount++;
+    });
+  }
+
+  void decrement() {
+    setState(() {
+      if (_personCount > 1) {
+        //becase tipping person has to be 1 at least for the tipping to make sense
+        _personCount--;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    print(context.owner.toString());
+    //print(context.owner.toString()); writing this code causes error
     var theme = Theme.of(context);
     //Add style
     final style = theme.textTheme.titleMedium!.copyWith(
@@ -42,23 +61,76 @@ class _UTipState extends State<UTip> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Container(
-            padding: const EdgeInsets.all(18),
-            decoration: BoxDecoration(
-              color: theme.colorScheme.inversePrimary,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Column(
-              children: [
-                Text('Total per person', style: style),
-                Text(
-                  "\$23.89",
-                  style: style.copyWith(
-                    // color: theme.colorScheme.primary,
-                    // fontSize: theme.textTheme.displaySmall!.fontSize,
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              padding: const EdgeInsets.all(18),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.inversePrimary,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Column(
+                children: [
+                  Text('Total per person', style: style),
+                  Text(
+                    "\$23.89",
+                    style: style.copyWith(
+                      // color: theme.colorScheme.primary,
+                      fontSize: theme.textTheme.displaySmall!.fontSize,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
+            ),
+          ),
+          //Form
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                border: Border.all(color: theme.colorScheme.primary, width: 2),
+              ),
+              child: Column(
+                children: [
+                  TextField(
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      prefixIcon: Icon(Icons.attach_money),
+                      labelText: "Bill Amount",
+                    ),
+                    keyboardType: TextInputType.number,
+                    onChanged: (value) {
+                      print(value);
+                    },
+                  ),
+                  //Split Bill area
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Split", style: theme.textTheme.titleMedium),
+                      Row(
+                        children: [
+                          IconButton(
+                            color: theme.colorScheme.primary,
+                            onPressed: decrement,
+                            icon: Icon(Icons.remove),
+                          ),
+                          Text(
+                            _personCount.toString(),
+                            style: theme.textTheme.titleMedium,
+                          ),
+                          IconButton(
+                            color: theme.colorScheme.primary,
+                            onPressed: increment,
+                            icon: Icon(Icons.add),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ],
