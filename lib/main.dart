@@ -109,24 +109,7 @@ class _UTipState extends State<UTip> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text("Split", style: theme.textTheme.titleMedium),
-                      Row(
-                        children: [
-                          IconButton(
-                            color: theme.colorScheme.primary,
-                            onPressed: decrement,
-                            icon: Icon(Icons.remove),
-                          ),
-                          Text(
-                            _personCount.toString(),
-                            style: theme.textTheme.titleMedium,
-                          ),
-                          IconButton(
-                            color: theme.colorScheme.primary,
-                            onPressed: increment,
-                            icon: Icon(Icons.add),
-                          ),
-                        ],
-                      ),
+                      PersonCounter(theme),
                     ],
                   ),
                 ],
@@ -135,6 +118,24 @@ class _UTipState extends State<UTip> {
           ),
         ],
       ),
+    );
+  }
+
+  Row PersonCounter(ThemeData theme) {
+    return Row(
+      children: [
+        IconButton(
+          color: theme.colorScheme.primary,
+          onPressed: decrement,
+          icon: Icon(Icons.remove),
+        ),
+        Text(_personCount.toString(), style: theme.textTheme.titleMedium),
+        IconButton(
+          color: theme.colorScheme.primary,
+          onPressed: increment,
+          icon: Icon(Icons.add),
+        ),
+      ],
     );
   }
 }
