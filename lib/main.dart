@@ -1,3 +1,5 @@
+import 'dart:ffi';
+import 'person_counter.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -105,37 +107,23 @@ class _UTipState extends State<UTip> {
                     },
                   ),
                   //Split Bill area
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Split", style: theme.textTheme.titleMedium),
-                      PersonCounter(theme),
-                    ],
+                  PersonCounter(
+                    theme: theme,
+                    personCount: _personCount,
+                    onIncrement: () {
+                      increment();
+                    },
+                    onDecrement: () {
+                      decrement();
+                    },
                   ),
+                  //IMPORTANT:after extracting the widget we need to pass the increment and decrement functions through call
                 ],
               ),
             ),
           ),
         ],
       ),
-    );
-  }
-
-  Row PersonCounter(ThemeData theme) {
-    return Row(
-      children: [
-        IconButton(
-          color: theme.colorScheme.primary,
-          onPressed: decrement,
-          icon: Icon(Icons.remove),
-        ),
-        Text(_personCount.toString(), style: theme.textTheme.titleMedium),
-        IconButton(
-          color: theme.colorScheme.primary,
-          onPressed: increment,
-          icon: Icon(Icons.add),
-        ),
-      ],
     );
   }
 }
