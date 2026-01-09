@@ -46,7 +46,7 @@ class _UTipState extends State<UTip> {
   void decrement() {
     setState(() {
       if (_personCount > 1) {
-        //becase tipping person has to be 1 at least for the tipping to make sense
+        //because tipping person has to be 1 at least for the tipping to make sense
         _personCount--;
       }
     });
@@ -136,6 +136,10 @@ class _UTipState extends State<UTip> {
                       });
                     },
                   ),
+<<<<<<< HEAD
+=======
+                  
+>>>>>>> 31415bc1e74a4bb697dd993728032517133a3966
                 ],
               ),
             ),
