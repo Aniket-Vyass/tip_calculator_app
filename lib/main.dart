@@ -46,7 +46,7 @@ class _UTipState extends State<UTip> {
   void decrement() {
     setState(() {
       if (_personCount > 1) {
-        //because tipping person has to be 1 at least for the tipping to make sense
+        //becase tipping person has to be 1 at least for the tipping to make sense
         _personCount--;
       }
     });
@@ -105,9 +105,7 @@ class _UTipState extends State<UTip> {
                       labelText: "Bill Amount",
                     ),
                     keyboardType: TextInputType.number,
-                    onChanged: (value) {
-                      print(value);
-                    },
+                    onChanged: (value) {},
                   ),
                   //Split Bill area
                   PersonCounter(
@@ -136,10 +134,6 @@ class _UTipState extends State<UTip> {
                       });
                     },
                   ),
-<<<<<<< HEAD
-=======
-                  
->>>>>>> 31415bc1e74a4bb697dd993728032517133a3966
                 ],
               ),
             ),
