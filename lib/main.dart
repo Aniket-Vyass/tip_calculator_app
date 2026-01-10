@@ -33,8 +33,12 @@ class UTip extends StatefulWidget {
 class _UTipState extends State<UTip> {
   //Variables
   int _personCount = 1;
-
   double _tipPercentage = 0.0;
+  double _billTotal = 0.0;
+
+  double totalPerPerson() {
+    return ((_billTotal * _tipPercentage) + (_billTotal)) / _personCount;
+  }
 
   //Methods
   void increment() {
@@ -54,8 +58,8 @@ class _UTipState extends State<UTip> {
 
   @override
   Widget build(BuildContext context) {
-    //print(context.owner.toString()); writing this code causes error
     var theme = Theme.of(context);
+    double total = totalPerPerson();
     //Add style
     final style = theme.textTheme.titleMedium!.copyWith(
       color: theme.colorScheme.onPrimary,
@@ -78,7 +82,7 @@ class _UTipState extends State<UTip> {
                 children: [
                   Text('Total per person', style: style),
                   Text(
-                    "\$23.89",
+                    '\$${total.toDouble().toStringAsFixed(2)}',
                     style: style.copyWith(
                       // color: theme.colorScheme.primary,
                       fontSize: theme.textTheme.displaySmall!.fontSize,
@@ -100,9 +104,11 @@ class _UTipState extends State<UTip> {
               child: Column(
                 children: [
                   BillAmountField(
-                    billAmount: '100',
+                    billAmount: _billTotal.toString(),
                     onChanged: (String value) {
-                      print("Amount: $value");
+                      setState(() {
+                        _billTotal = double.parse(value);
+                      });
                     },
                   ),
                   //Split Bill area
@@ -117,7 +123,10 @@ class _UTipState extends State<UTip> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text('Tip', style: theme.textTheme.titleMedium),
-                      Text('\$20', style: theme.textTheme.titleMedium),
+                      Text(
+                        '\$${(_tipPercentage * 100).round()}',
+                        style: theme.textTheme.titleMedium,
+                      ),
                     ],
                   ),
                   // == Slider Text ==
